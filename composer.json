@@ -41,6 +41,6 @@
         }
     },
     "scripts": {
-        "test": "phpunit tests --testdox"
+        "test": "phpunit tests --testdox --coverage-clover ./build/coverage/clober.xml --coverage-html ./build/coverage/html"
     }
 }
