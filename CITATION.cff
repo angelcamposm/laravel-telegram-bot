@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Angel"
+  given-names: "Angel"
+  orcid: "https://orcid.org/0000-0003-0337-4967"
+title: "laravel-telegram-bot"
+version: 1.0.0
+date-released: 2021-10-12
+license: MIT
+license-url: "https://github.com/angelcamposm/laravel-telegram-bot/blob/master/LICENSE"
+url: "https://github.com/angelcamposm/laravel-telegram-bot"
