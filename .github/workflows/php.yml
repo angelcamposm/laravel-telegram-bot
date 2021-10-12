@@ -32,7 +32,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
-      run: composer run-script tests
+      run: composer run-script test
       
   sonarcloud:
   
