@@ -1,5 +1,4 @@
 .idea
-build/coverage
-build/log
+build
 vendor
 .phpunit.result.cache
