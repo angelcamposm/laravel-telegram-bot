@@ -18,7 +18,7 @@
             <directory suffix=".php">src/</directory>
         </include>
         <report>
-            <clover outputFile="build/coverage/clover.xml"/>
+            <clover outputFile="build/clover.xml"/>
             <html outputDirectory="build/coverage/html-coverage" lowUpperBound="50" highLowerBound="90"/>
             <php outputFile="build/coverage/coverage.php"/>
             <text outputFile="build/coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
@@ -28,7 +28,7 @@
     <logging>
         <testdoxHtml outputFile="/build/log/testdox.html"/>
         <testdoxXml outputFile="build/log/testdox.xml"/>
-        <junit outputFile="build/log/junit.xml"/>
+        <junit outputFile="build/junit.xml"/>
     </logging>
     <testsuites>
         <testsuite name="Unit">
