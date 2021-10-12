@@ -18,17 +18,17 @@
             <directory suffix=".php">src/</directory>
         </include>
         <report>
-            <clover outputFile="/build/coverage/clover.xml"/>
-            <html outputDirectory="/build/coverage/html-coverage" lowUpperBound="50" highLowerBound="90"/>
-            <php outputFile="/build/coverage/coverage.php"/>
-            <text outputFile="/build/coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
-            <xml outputDirectory="/build/coverage/xml-coverage"/>
+            <clover outputFile="build/coverage/clover.xml"/>
+            <html outputDirectory="build/coverage/html-coverage" lowUpperBound="50" highLowerBound="90"/>
+            <php outputFile="build/coverage/coverage.php"/>
+            <text outputFile="build/coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
+            <xml outputDirectory="build/coverage/xml-coverage"/>
         </report>
     </coverage>
     <logging>
         <testdoxHtml outputFile="/build/log/testdox.html"/>
-        <testdoxXml outputFile="/build/log/testdox.xml"/>
-        <junit outputFile="/build/log/junit.xml"/>
+        <testdoxXml outputFile="build/log/testdox.xml"/>
+        <junit outputFile="build/log/junit.xml"/>
     </logging>
     <testsuites>
         <testsuite name="Unit">
