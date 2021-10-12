@@ -10,6 +10,6 @@ liberapay: # Replace with a single Liberapay username
 issuehunt: # Replace with a single IssueHunt username
 otechie: # Replace with a single Otechie username
 custom: [
-  'https://www.blockchain.com/btc/address/3DWxSQg2HNijAADowkQWFJsDHHpKo8Ec2z', 
-  'https://www.blockchain.com/es/eth/address/0x4F4963EF52970CF6fea799659a0d5FB18E9c9e56'
+  ['https://www.blockchain.com/btc/address/3DWxSQg2HNijAADowkQWFJsDHHpKo8Ec2z', BTC],
+  ['https://www.blockchain.com/es/eth/address/0x4F4963EF52970CF6fea799659a0d5FB18E9c9e56', ETC]
 ]
