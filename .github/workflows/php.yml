@@ -34,6 +34,12 @@ jobs:
     - name: Run test suite
       run: composer run-script test
       
+    - name: pwd
+      run: pwd
+      
+    - name: ls
+      run: ls
+      
     - name: Cat junit.xml
       run: cat /home/runner/work/laravel-telegram-bot/build/junit.xml
       
