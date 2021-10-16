@@ -98,7 +98,7 @@ class InstallTelegramBotCommand extends Command
 
             $this->info('Overwriting configuration file...');
 
-            $this->publishConfiguration($force = true);
+            $this->publishConfiguration(true);
 
         } else {
 
