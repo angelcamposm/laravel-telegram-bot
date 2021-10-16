@@ -2,9 +2,9 @@
 
 namespace Acamposm\TelegramBot\Tests;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 
-class PhpUnitTestCase extends TestCase
+class TestCase extends PhpUnitTestCase
 {
 
 }
