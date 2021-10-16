@@ -25,7 +25,7 @@ class Bot
     public static function Api(): string
     {
 //        if (config('telegram.bot.token') === Dummy::BOT_TOKEN) {
-//            throw BotConfigurationException::TokenNotDefined();
+//            throw BotConfigurationException::BotTokenNotDefined();
 //        }
 //
 //        return Telegram::Api().'bot'.config('telegram.bot.token').'/';
@@ -40,9 +40,9 @@ class Bot
      */
     public static function Name(): string
     {
-        if (config('telegram.bot.name') === Dummy::BOT_NAME) {
-            throw BotConfigurationException::NameNotDefined();
-        }
+//        if (config('telegram.bot.name') === Dummy::BOT_NAME) {
+//            throw BotConfigurationException::BotNameNotDefined();
+//        }
 
         return config('telegram.bot.name');
     }
