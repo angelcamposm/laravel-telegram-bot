@@ -3,9 +3,11 @@
 namespace Acamposm\TelegramBot;
 
 use Acamposm\TelegramBot\Contracts\RequestMethod;
-use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Http;
+use Acamposm\TelegramBot\Enums\HttpRequestMethod;
+use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Request as GuzzleHttpRequest;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 
 class Request
@@ -32,44 +34,41 @@ class Request
     }
 
     /**
-     * Send a GET Request to the Telegram API.
+     * Send a request and returns a ResponseInterface
      *
-     * @return \Illuminate\Http\Client\Response
+     * @throws \Acamposm\TelegramBot\Exceptions\BotConfigurationException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function send(): ResponseInterface
+    {
+        $client = new GuzzleHttpClient();
+
+        return $client->send($this->getRequestInstance(), $this->getOptions());
+    }
+
+    /**
+     * Return an instance of GuzzleHttp\Request with configuration.
+     *
      * @throws \Acamposm\TelegramBot\Exceptions\BotConfigurationException
      */
-    public function sendGetRequest(): Response
+    private function getRequestInstance(): GuzzleHttpRequest
     {
-        $request = $this->getTelegramPendingRequest();
-
-        return $request->get(
-            $this->getUrl()
+        return new GuzzleHttpRequest(
+            HttpRequestMethod::POST,
+            $this->getUrl(),
+            $this->getHeaders(),
+            $this->getBody(),
         );
     }
 
     /**
-     * Send a POST Request to the Telegram API.
+     * Return a formated JSON string with the body of the request.
      *
-     * @return \Illuminate\Http\Client\Response
-     * @throws \Acamposm\TelegramBot\Exceptions\BotConfigurationException
+     * @return string
      */
-    public function sendPostRequest(): Response
+    private function getBody(): string
     {
-        $request = $this->getTelegramPendingRequest();
-
-        return $request->post(
-            $this->getUrl()
-        );
-    }
-
-    public function getTelegramPendingRequest(): PendingRequest
-    {
-        $content = json_encode($this->method->getBody());
-        $headers = $this->getHeaders();
-        $options = $this->getOptions();
-
-        return Http::withHeaders($headers)
-            ->withOptions($options)
-            ->withBody($content, 'Application/Json');
+        return json_encode($this->method->getBody());
     }
 
     /**
@@ -81,7 +80,9 @@ class Request
     {
         return [
             'Accept' => 'Application/Json',
+            'Accept-Charset' => 'UTF-8',
             'Content-Type' => 'Application/Json',
+            'User-Agent' => self::getUserAgent(),
         ];
     }
 
@@ -108,6 +109,20 @@ class Request
     }
 
     /**
+     * Builds a dummy user agent string.
+     *
+     * @return string
+     */
+    private static function getUserAgent(): string
+    {
+        $gversion = ClientInterface::MAJOR_VERSION;
+        $pversion = phpversion();
+        $zversion = zend_version();
+
+        return "GuzzleHttp/{$gversion} PHP/{$pversion} Zend Engine/{$zversion}";
+    }
+
+    /**
      * Return the name of the method to be used.
      *
      * @return string
@@ -126,10 +141,32 @@ class Request
     public function toArray(): array
     {
         return [
-            'headers' => $this->getHeaders(),
-            'method' => $this->getMethod(),
-            'options' => $this->getOptions(),
-            'url' => $this->getUrl()
+            'telegram' => [
+                'bot' => [
+                    'name' => Bot::Name(),
+                    'token' => Bot::Token(),
+                ],
+                'method' => $this->getMethod(),
+                'url' => $this->getUrl(),
+            ],
+            'request' => [
+                'body' => $this->method->getBody(),
+                'headers' => $this->getHeaders(),
+                'options' => $this->getOptions(),
+            ],
         ];
+    }
+
+    /**
+     * Return an object with the details of the request.
+     *
+     * @return object
+     * @throws \Acamposm\TelegramBot\Exceptions\BotConfigurationException
+     */
+    public function toObject(): object
+    {
+        return json_decode(
+            json_encode($this->toArray(), JSON_PRETTY_PRINT)
+        );
     }
 }
