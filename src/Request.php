@@ -4,6 +4,7 @@ namespace Acamposm\TelegramBot;
 
 use Acamposm\TelegramBot\Contracts\RequestMethod;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use ReflectionClass;
 
@@ -36,7 +37,7 @@ class Request
      * @return \Illuminate\Http\Client\Response
      * @throws \Acamposm\TelegramBot\Exceptions\BotConfigurationException
      */
-    public function get()
+    public function sendGetRequest(): Response
     {
         $request = $this->getTelegramPendingRequest();
 
@@ -51,7 +52,7 @@ class Request
      * @return \Illuminate\Http\Client\Response
      * @throws \Acamposm\TelegramBot\Exceptions\BotConfigurationException
      */
-    public function post()
+    public function sendPostRequest(): Response
     {
         $request = $this->getTelegramPendingRequest();
 
@@ -62,8 +63,13 @@ class Request
 
     public function getTelegramPendingRequest(): PendingRequest
     {
-        return Http::withHeaders($this->getHeaders())
-            ->withOptions($this->getOptions());
+        $content = json_encode($this->method->getBody());
+        $headers = $this->getHeaders();
+        $options = $this->getOptions();
+
+        return Http::withHeaders($headers)
+            ->withOptions($options)
+            ->withBody($content, 'Application/Json');
     }
 
     /**
