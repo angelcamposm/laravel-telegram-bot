@@ -11,6 +11,8 @@
 
 namespace Acamposm\TelegramBot\Traits;
 
+use Acamposm\TelegramBot\Contracts\RequestMethod;
+
 trait ReplyableMessage
 {
     /**
@@ -48,5 +50,18 @@ trait ReplyableMessage
     private function getSendingWithoutReplyParameterValue(): bool
     {
         return $this->allow_sending_without_reply ?? false;
+    }
+
+    /**
+     *
+     *
+     * @param string $reply_markup
+     * @return \Acamposm\TelegramBot\Contracts\RequestMethod
+     */
+    public function setReplyMarkup(string $reply_markup): RequestMethod
+    {
+        $this->reply_markup = $reply_markup;
+
+        return $this;
     }
 }
