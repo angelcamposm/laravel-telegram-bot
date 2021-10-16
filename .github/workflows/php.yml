@@ -35,10 +35,10 @@ jobs:
       run: composer run-script test
       
     - name: Cat junit.xml
-      run: cat /home/runner/work/laravel-telegram-bot/laravel-telegram-bot/build/junit.xml
+      run: cat /home/runner/work/laravel-telegram-bot/build/junit.xml
       
     - name: cat clover.xml
-      run: cat /home/runner/work/laravel-telegram-bot/laravel-telegram-bot/build/clover.xml
+      run: cat /home/runner/work/laravel-telegram-bot/build/clover.xml
       
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
