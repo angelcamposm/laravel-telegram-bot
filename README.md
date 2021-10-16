@@ -6,6 +6,8 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=angelcamposm_laravel-telegram-bot&metric=security_rating)](https://sonarcloud.io/dashboard?id=angelcamposm_laravel-telegram-bot)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=angelcamposm_laravel-telegram-bot&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=angelcamposm_laravel-telegram-bot)
 
+Work in Progress
+
 ## Installation
 
 
