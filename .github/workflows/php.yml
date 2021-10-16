@@ -38,13 +38,13 @@ jobs:
       run: pwd
       
     - name: ls
-      run: ls
+      run: ls build
       
     - name: Cat junit.xml
-      run: cat $PWD/build/junit.xml
+      run: cat build/junit.xml
       
     - name: cat clover.xml
-      run: cat $PWD/build/clover.xml
+      run: cat build/clover.xml
       
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
