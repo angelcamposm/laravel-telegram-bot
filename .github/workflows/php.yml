@@ -51,8 +51,8 @@ jobs:
       
     - name: Prepare for SonarCloud Scan
       run: |
-        sed -i 's/\/home\/runner\/work\/laravel-telegram-bot\/laravel-telegram-bot\//\/github\/workspace\//g' build/clover.xml
-        sed -i 's/\/home\/runner\/work\/laravel-telegram-bot\/laravel-telegram-bot\//\/github\/workspace\//g' build/junit.xml
+        sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' build/clover.xml
+        sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' build/junit.xml
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
