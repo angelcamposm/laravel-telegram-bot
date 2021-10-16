@@ -3,25 +3,21 @@
 namespace Acamposm\TelegramBot\Exceptions;
 
 use Exception;
+use Throwable;
 
 class BotConfigurationException extends Exception
 {
-    /**
-     * Throw exception when bot name is not defined.
-     *
-     * @return \Acamposm\TelegramBot\Exceptions\BotConfigurationException
-     */
-    public static function NameNotDefined(): BotConfigurationException
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+
+    public static function BotNameNotDefined(): BotConfigurationException
     {
         return new static('Telegram Bot name not defined in .env file');
     }
 
-    /**
-     * Throw exception when bot token is not defined.
-     *
-     * @return \Acamposm\TelegramBot\Exceptions\BotConfigurationException
-     */
-    public static function TokenNotDefined(): BotConfigurationException
+    public static function BotTokenNotDefined(): BotConfigurationException
     {
         return new static('Telegram Bot token not defined in .env file');
     }
