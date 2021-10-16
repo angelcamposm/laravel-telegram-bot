@@ -87,13 +87,12 @@ class InlineKeyboardButton
      */
     protected bool $pay;
 
-
     /**
      * Returns an instance of InlineKeyboardButton
      *
      * @return \Acamposm\TelegramBot\API\Types\InlineKeyboardButton
      */
-    public static function Create(): InlineKeyboardButton
+    public static function create(): InlineKeyboardButton
     {
         return new static();
     }
