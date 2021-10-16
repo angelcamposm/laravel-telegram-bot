@@ -13,6 +13,7 @@ jobs:
     name: PHPUnit
     runs-on: ubuntu-latest
 
+
     steps:
     - uses: actions/checkout@v2
 
@@ -32,6 +33,8 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
+      env:
+        XDEBUG_MODE: coverage
       run: composer run-script test
       
     - name: pwd
