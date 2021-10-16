@@ -34,6 +34,12 @@ jobs:
     - name: Run test suite
       run: composer run-script test
       
+    - name: Cat junit.xml
+      run: cat /build/junit.xml
+      
+    - name: cat clover.xml
+      run: cat /build/clover.xml
+      
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
