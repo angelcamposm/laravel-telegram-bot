@@ -11,13 +11,15 @@
 
 namespace Acamposm\TelegramBot\Enums;
 
-class RestMethod
+class HttpRequestMethod
 {
+    public const CONNECT = 'CONNECT';
+    public const DELETE = 'DELETE';
     public const GET = 'GET';
     public const HEAD = 'HEAD';
     public const OPTIONS = 'OPTIONS';
     public const PATCH = 'PATCH';
     public const POST = 'POST';
     public const PUT = 'PUT';
-    public const DELETE = 'DELETE';
+    public const TRACE = 'TRACE';
 }
