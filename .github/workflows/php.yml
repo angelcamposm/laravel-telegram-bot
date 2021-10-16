@@ -39,12 +39,6 @@ jobs:
         XDEBUG_MODE: coverage
       run: composer run-script test
       
-    - name: pwd
-      run: pwd
-      
-    - name: ls
-      run: ls build
-      
     - name: Cat junit.xml
       run: cat build/junit.xml
       
