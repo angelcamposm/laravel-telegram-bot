@@ -11,4 +11,14 @@ trait NotifiableMessage
      * @var bool
      */
     protected bool $disable_notification;
+
+    /**
+     * Return the default value for disable_notification parameter.
+     *
+     * @return bool
+     */
+    private function getNotificationParameterValue(): bool
+    {
+        return $this->disable_notification ?? false;
+    }
 }
