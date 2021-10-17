@@ -22,26 +22,20 @@ use PHPUnit\Framework\TestCase;
 
 class CreateSendMessageTest extends TestCase
 {
-    public function test_it_can_create_a_new_instance(): SendMessage
+    public function test_it_can_create_a_new_instance()
     {
-        $instance = new SendMessage();
-
-        $this->assertInstanceOf(SendMessage::class, $instance);
-
-        return $instance;
+        $this->assertInstanceOf(SendMessage::class, new SendMessage());
     }
 
     /**
      * @throws \Acamposm\TelegramBot\Exceptions\RequiredParameterException
+     * @throws \Exception
      */
     public function test_it_throw_exception_if_no_chat_id_is_assigned()
     {
-        $instance = new SendMessage();
-        $instance->setText(Dummy::CHAT_TEXT);
-
         $this->expectException(RequiredParameterException::class);
 
-        $instance->getBody();
+        SendMessage::toChat('')->withText(Dummy::CHAT_TEXT)->getBody();
     }
 
     /**
@@ -49,11 +43,10 @@ class CreateSendMessageTest extends TestCase
      */
     public function test_i_can_assign_a_chat_id()
     {
-        $instance = new SendMessage();
-        $instance->setChatId(Dummy::CHAT_ID);
-        $instance->setText(Dummy::CHAT_TEXT);
-
-        $this->assertEquals(Dummy::CHAT_ID, $instance->getBody()['chat_id']);
+        $this->assertEquals(
+            Dummy::CHAT_ID,
+            SendMessage::toChat(Dummy::CHAT_ID)->withText(Dummy::CHAT_TEXT)->getBody()['chat_id']
+        );
     }
 
     /**
@@ -61,12 +54,9 @@ class CreateSendMessageTest extends TestCase
      */
     public function test_it_throw_exception_if_no_text_is_assigned()
     {
-        $instance = new SendMessage();
-        $instance->setChatId(Dummy::CHAT_ID);
-
         $this->expectException(RequiredParameterException::class);
 
-        $instance->getBody();
+        SendMessage::toChat(Dummy::CHAT_ID)->getBody();
     }
 
     /**
@@ -74,11 +64,10 @@ class CreateSendMessageTest extends TestCase
      */
     public function test_i_can_assign_a_text()
     {
-        $instance = new SendMessage();
-        $instance->setChatId(Dummy::CHAT_ID);
-        $instance->setText(Dummy::CHAT_TEXT);
-
-        $this->assertEquals(Dummy::CHAT_TEXT, $instance->getBody()['text']);
+        $this->assertEquals(
+            Dummy::CHAT_TEXT,
+            SendMessage::toChat(Dummy::CHAT_ID)->withText(Dummy::CHAT_TEXT)->getBody()['text']
+        );
     }
 
     /**
@@ -86,13 +75,9 @@ class CreateSendMessageTest extends TestCase
      */
     public function test_it_throw_exception_on_unknown_parse_method()
     {
-        $instance = new SendMessage();
-        $instance->setChatId(Dummy::CHAT_ID);
-        $instance->setText(Dummy::CHAT_TEXT);
-
         $this->expectException(ValueException::class);
 
-        $instance->setParseMode('java');
+        SendMessage::toChat(Dummy::CHAT_ID)->withText(Dummy::CHAT_TEXT)->setParseMode('java');
     }
 
     /**
@@ -101,12 +86,13 @@ class CreateSendMessageTest extends TestCase
      */
     public function test_i_can_assign_a_parse_method()
     {
-        $instance = new SendMessage();
-        $instance->setChatId(Dummy::CHAT_ID);
-        $instance->setText(Dummy::CHAT_TEXT);
-        $instance->setParseMode(ParseStyle::HTML);
-
-        $this->assertEquals(ParseStyle::HTML, $instance->getBody()['parse_mode']);
+        $this->assertEquals(
+            ParseStyle::HTML,
+            SendMessage::toChat(Dummy::CHAT_ID)
+                ->withText(Dummy::CHAT_TEXT)
+                ->setParseMode(ParseStyle::HTML)
+                ->getBody()['parse_mode']
+        );
     }
 
 }

@@ -14,6 +14,7 @@ namespace Acamposm\TelegramBot\API\Methods;
 use Acamposm\TelegramBot\Contracts\RequestMethod;
 use Acamposm\TelegramBot\Enums\ParseStyle;
 use Acamposm\TelegramBot\Exceptions\RequiredParameterException;
+use Acamposm\TelegramBot\Exceptions\ValueException;
 use Acamposm\TelegramBot\Traits\NotifiableMessage;
 use Acamposm\TelegramBot\Traits\ParseableMessage;
 use Acamposm\TelegramBot\Traits\ReplyableMessage;
@@ -77,9 +78,14 @@ class SendMessage implements RequestMethod
      * @param string $chat_id
      *
      * @return static
+     * @throws \Acamposm\TelegramBot\Exceptions\RequiredParameterException
      */
-    public static function toChat(string $chat_id)
+    public static function toChat(string $chat_id = '')
     {
+        if (strLen($chat_id) === 0) {
+            throw RequiredParameterException::ChatIdParameterNotSet();
+        }
+
         return new static($chat_id);
     }
 
@@ -105,10 +111,19 @@ class SendMessage implements RequestMethod
      */
     public function getBody(): array
     {
-        $body = [
-            'chat_id' => $this->chat_id,
-            'text' => $this->text,
-        ];
+        $body = [];
+
+        if (isset($this->chat_id)) {
+            $body['chat_id'] = $this->chat_id;
+        } else {
+            throw RequiredParameterException::ChatIdParameterNotSet();
+        }
+
+        if (isset($this->text)) {
+            $body['text'] = $this->text;
+        } else {
+            throw RequiredParameterException::TextParameterNotSet();
+        }
 
         if (isset($this->allow_sending_without_reply)) {
             $body['allow_sending_without_reply'] = $this->allow_sending_without_reply;
@@ -165,7 +180,7 @@ class SendMessage implements RequestMethod
      */
     public function withText(string $text): SendMessage
     {
-        if (empty($text)) {
+        if (empty($text) || $text === '') {
             throw RequiredParameterException::TextParameterNotSet();
         }
 
