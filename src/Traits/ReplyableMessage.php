@@ -53,12 +53,12 @@ trait ReplyableMessage
     }
 
     /**
-     *
+     * Set the reply_markup of the Telegram Message
      *
      * @param string $reply_markup
      * @return \Acamposm\TelegramBot\Contracts\RequestMethod
      */
-    public function setReplyMarkup(string $reply_markup): RequestMethod
+    public function withReplyMarkup(string $reply_markup): RequestMethod
     {
         $this->reply_markup = $reply_markup;
 
