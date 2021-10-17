@@ -21,6 +21,16 @@ class ValueException extends Exception
         parent::__construct($message, $code, $previous);
     }
 
+    public static function EmptyButtonRow()
+    {
+        return new static('A button row must not be empty');
+    }
+
+    public static function NotValidUrl(): ValueException
+    {
+        return new static('Not valid URL provided');
+    }
+
     public static function UnknownParseStyle(): ValueException
     {
         return new static('Unknown Parse mode style defined.');
