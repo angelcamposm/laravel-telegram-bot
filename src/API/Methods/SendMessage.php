@@ -60,12 +60,27 @@ class SendMessage implements RequestMethod
      */
     protected bool $disable_web_page_preview;
 
-    public function __construct()
+    /**
+     * SendMessage constructor.
+     *
+     * @param string $chat_id
+     */
+    public function __construct(string $chat_id = '')
     {
-        $this->allow_sending_without_reply = true;
-        $this->disable_web_page_preview = true;
-        $this->parse_mode = ParseStyle::HTML;
-        $this->reply_markup = '';
+        $this->chat_id = $chat_id;
+        $this->initialize();
+    }
+
+    /**
+     * Return a new SendMessage instance.
+     *
+     * @param string $chat_id
+     *
+     * @return static
+     */
+    public static function toChat(string $chat_id)
+    {
+        return new static($chat_id);
     }
 
     /**
@@ -86,14 +101,26 @@ class SendMessage implements RequestMethod
      * Returns the body for the request.
      *
      * @return array
-     * @throws Exception|RequiredParameterException
+     * @throws Exception
      */
     public function getBody(): array
     {
         $body = [
-            'chat_id' => $this->getChat(),
-            'text' => $this->getText(),
+            'chat_id' => $this->chat_id,
+            'text' => $this->text,
         ];
+
+        if (isset($this->allow_sending_without_reply)) {
+            $body['allow_sending_without_reply'] = $this->allow_sending_without_reply;
+        }
+
+        if (isset($this->disable_notification)) {
+            $body['disable_notification'] = $this->disable_notification;
+        }
+
+        if (isset($this->disable_web_page_preview)) {
+            $body['disable_web_page_preview'] = $this->disable_web_page_preview;
+        }
 
         if (isset($this->parse_mode)) {
             $body['parse_mode'] = $this->getParseMode();
@@ -102,30 +129,15 @@ class SendMessage implements RequestMethod
             $body['entities'] = $this->getEntities();
         }
 
+        if (isset($this->reply_markup)) {
+            $body['reply_markup'] = $this->reply_markup;
+        }
+
         if (isset($this->reply_to_message_id)) {
             $body['reply_to_message_id'] = $this->reply_to_message_id;
         }
 
         return $body;
-//            'disable_web_page_preview' => $this->disable_web_page_preview,
-//            'disable_notification' => $this->getNotificationParameterValue(),
-//            'allow_sending_without_reply' => $this->allow_sending_without_reply,
-//            'reply_markup' => $this->reply_markup,
-    }
-
-    /**
-     * @throws RequiredParameterException
-     */
-    private function getChat(): string
-    {
-        $this->verifyChatId();
-
-        return $this->chat_id;
-    }
-
-    private function getDisableWebPagePreviewOptionValue(): bool
-    {
-        return $this->disable_web_page_preview;
     }
 
     /**
@@ -145,53 +157,35 @@ class SendMessage implements RequestMethod
     }
 
     /**
-     * @throws Exception
+     * Set the text of the Telegram Message.
+     *
+     * @param string $text
+     * @return SendMessage
+     * @throws \Acamposm\TelegramBot\Exceptions\RequiredParameterException
      */
-    private function getText(): string
+    public function withText(string $text): SendMessage
     {
-        $this->verifyText();
-
-        return $this->verifyTextLength();
-    }
-
-    /**
-     * @throws RequiredParameterException
-     */
-    private function verifyChatId(): void
-    {
-        if (! isset($this->chat_id)) {
-            throw RequiredParameterException::ChatIdParameterNotSet();
-        }
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function verifyText()
-    {
-        if (! isset($this->text)) {
+        if (empty($text)) {
             throw RequiredParameterException::TextParameterNotSet();
         }
-    }
 
-    private function verifyTextLength(): string
-    {
-        if (strlen($this->text) > self::TEXT_MAX_LENGTH) {
+        if (strlen($text) > self::TEXT_MAX_LENGTH) {
             // TODO: implement method to isolate entities, then count & cut if necessary.
         }
 
-        return $this->text;
-    }
-
-    /**
-     * @param string $text
-     * @return SendMessage
-     */
-    public function setText(string $text): SendMessage
-    {
         $this->text = $text;
 
         return $this;
+    }
+
+    /**
+     * Set default parameter values.
+     */
+    private function initialize(): void
+    {
+        $this->allow_sending_without_reply = true;
+        $this->disable_web_page_preview = true;
+        $this->parse_mode = ParseStyle::HTML;
     }
 
     /**
